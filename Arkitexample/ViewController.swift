@@ -21,13 +21,21 @@ class ViewController: UIViewController, ARSCNViewDelegate {
         sceneView.delegate = self
         
         // Show statistics such as fps and timing information
-        sceneView.showsStatistics = true
+        let text = SCNText(string: "erik osman nåbo ", extrusionDepth: 1)
         
-        // Create a new scene
-        let scene = SCNScene(named: "art.scnassets/ship.scn")!
+        let material = SCNMaterial()
+        material.diffuse.contents = UIColor.green
         
-        // Set the scene to the view
-        sceneView.scene = scene
+        text.materials = [material]
+        
+        let node = SCNNode()
+        node.position = SCNVector3(0, 0.02, -0.1)
+        node.scale = SCNVector3(0.01, 0.01, 0.1)
+        node.geometry = text
+        
+        sceneView.scene.rootNode.addChildNode(node)
+        sceneView.autoenablesDefaultLighting = true
+    
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -35,7 +43,7 @@ class ViewController: UIViewController, ARSCNViewDelegate {
         
         // Create a session configuration
         let configuration = ARWorldTrackingConfiguration()
-
+   
         // Run the view's session
         sceneView.session.run(configuration)
     }
